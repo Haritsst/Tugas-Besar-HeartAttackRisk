@@ -34,6 +34,9 @@ def load_model_and_scaler():
     df = load_data()
     X = df.drop('Heart Attack Risk', axis=1)
     y = df['Heart Attack Risk']
+    X = X.select_dtypes(include=[np.number])  # drop non-numeric if any
+    X = X.astype(float)
+    y = y.astype(int)
     ros = RandomOverSampler(random_state=42)
     X_resampled, y_resampled = ros.fit_resample(X, y)
     scaler = StandardScaler()
